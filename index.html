@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ibrahim Kamara | AI Automation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root{--green:#00c853;--green-dark:#00a844;--green-light:#e8f5e9;--text:#1a1a1a;--text-sec:#5a5a5a;--border:#e8e8e8}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:var(--text);line-height:1.6}
+        ::selection{background:var(--green);color:#fff}
+        .container{max-width:1140px;margin:0 auto;padding:0 24px}
+        nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+        .nav-content{display:flex;justify-content:space-between;align-items:center}
+        .logo{font-size:1.25rem;font-weight:800;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:8px}
+        .logo-dot{width:10px;height:10px;background:var(--green);border-radius:50%}
+        .nav-links{display:flex;gap:40px}
+        .nav-link{color:var(--text-sec);text-decoration:none;font-weight:500;transition:color 0.2s}
+        .nav-link:hover{color:var(--green)}
+        .lang-toggle{display:flex;gap:2px;background:#f5f5f5;padding:4px;border-radius:8px}
+        .lang-btn{padding:8px 14px;border:none;background:transparent;color:#888;font-family:inherit;font-size:0.8rem;font-weight:600;cursor:pointer;border-radius:6px}
+        .lang-btn.active{background:var(--green);color:#fff}
+        .hero{min-height:100vh;display:flex;align-items:center;padding-top:80px}
+        .hero-content{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--green-light);border-radius:100px;font-size:0.8rem;font-weight:600;color:var(--green-dark);margin-bottom:24px}
+        .hero-badge-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+        .hero-title{font-size:clamp(2.5rem,5vw,3.5rem);font-weight:800;line-height:1.1;margin-bottom:20px}
+        .highlight{color:var(--green)}
+        .hero-subtitle{font-size:1.1rem;color:var(--text-sec);margin-bottom:32px;line-height:1.7}
+        .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+        .btn{padding:14px 28px;font-family:inherit;font-size:0.9rem;font-weight:600;text-decoration:none;border-radius:10px;cursor:pointer;transition:all 0.3s;border:none}
+        .btn-primary{background:var(--green);color:#fff;box-shadow:0 4px 14px rgba(0,200,83,0.3)}
+        .btn-primary:hover{background:var(--green-dark);transform:translateY(-2px)}
+        .btn-secondary{background:#fff;color:var(--text);border:1px solid var(--border)}
+        .btn-secondary:hover{border-color:var(--green);color:var(--green-dark)}
+        .hero-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,0.06);position:relative}
+        .hero-card::before{content:'';position:absolute;top:-1px;left:24px;right:24px;height:3px;background:var(--green);border-radius:0 0 4px 4px}
+        .code-header{display:flex;gap:6px;margin-bottom:20px}
+        .code-dot{width:12px;height:12px;border-radius:50%}
+        .code-dot.red{background:#ff5f57}.code-dot.yellow{background:#ffbd2e}.code-dot.green{background:#28c840}
+        .code-content{font-family:'SF Mono',monospace;font-size:0.85rem;line-height:1.8}
+        .code-line{display:flex;gap:12px}
+        .code-number{color:#888;min-width:20px}
+        .code-keyword{color:#d73a49}.code-function{color:#6f42c1}.code-string{color:var(--green-dark)}.code-comment{color:#888}
+        section{padding:100px 0}
+        .section-header{margin-bottom:56px;text-align:center}
+        .section-badge{display:inline-flex;padding:6px 14px;background:var(--green-light);border-radius:100px;font-size:0.75rem;font-weight:600;color:var(--green-dark);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:16px}
+        .section-title{font-size:clamp(1.75rem,4vw,2.5rem);font-weight:700}
+        .about-section{background:#f8faf8}
+        .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center}
+        .about-text p{color:var(--text-sec);margin-bottom:20px;font-size:1.05rem;line-height:1.8}
+        .about-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .stat-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;text-align:center;transition:all 0.3s}
+        .stat-card:hover{border-color:var(--green);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,200,83,0.1)}
+        .stat-number{font-size:2.5rem;font-weight:800;color:var(--green);line-height:1;margin-bottom:8px}
+        .stat-label{color:#888;font-size:0.85rem;font-weight:500}
+        .projects-grid{display:grid;gap:24px}
+        .project-card{background:#fff;border:1px solid var(--border);border-radius:20px;padding:40px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;transition:all 0.3s}
+        .project-card:hover{border-color:var(--green);box-shadow:0 16px 48px rgba(0,200,83,0.1);transform:translateY(-4px)}
+        .project-number{font-size:0.9rem;font-weight:700;color:var(--green);margin-bottom:12px}
+        .project-title{font-size:1.5rem;font-weight:700;margin-bottom:12px}
+        .project-description{color:var(--text-sec);margin-bottom:20px;line-height:1.7}
+        .project-tags{display:flex;flex-wrap:wrap;gap:8px}
+        .tag{padding:6px 14px;background:var(--green-light);border-radius:100px;font-size:0.8rem;font-weight:500;color:var(--green-dark)}
+        .project-impact{text-align:center;padding:24px 32px;background:var(--green-light);border-radius:16px;min-width:140px}
+        .impact-number{font-size:2.5rem;font-weight:800;color:var(--green-dark);line-height:1;margin-bottom:4px}
+        .impact-label{color:var(--green-dark);font-size:0.8rem;font-weight:500}
+        .skills-section{background:#f8faf8}
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+        .skill-category{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;transition:all 0.3s}
+        .skill-category:hover{border-color:var(--green)}
+        .skill-header{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+        .skill-icon{width:44px;height:44px;background:var(--green-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
+        .skill-title{font-size:1.1rem;font-weight:700}
+        .skill-list{display:flex;flex-wrap:wrap;gap:8px}
+        .skill-item{padding:8px 14px;background:#f5f5f5;border-radius:8px;font-size:0.85rem;color:var(--text-sec);font-weight:500;transition:all 0.2s}
+        .skill-item:hover{background:var(--green-light);color:var(--green-dark)}
+        .contact-wrapper{background:#fff;border:1px solid var(--border);border-radius:24px;padding:56px;box-shadow:0 16px 48px rgba(0,0,0,0.04)}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+        .contact-info h3{font-size:1.75rem;font-weight:700;margin-bottom:12px}
+        .contact-info>p{color:var(--text-sec);margin-bottom:32px;line-height:1.7}
+        .contact-details{display:flex;flex-direction:column;gap:16px}
+        .contact-detail{display:flex;align-items:center;gap:14px;padding:16px;background:#f8faf8;border-radius:12px}
+        .contact-detail-icon{width:44px;height:44px;background:var(--green-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+        .contact-detail-text{font-weight:500}
+        .contact-form{display:flex;flex-direction:column;gap:20px}
+        .form-group{display:flex;flex-direction:column;gap:8px}
+        .form-label{font-size:0.85rem;font-weight:600}
+        .form-input,.form-textarea{background:#f8faf8;border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-family:inherit;font-size:0.95rem;color:var(--text);transition:all 0.2s}
+        .form-input:focus,.form-textarea:focus{outline:none;border-color:var(--green);background:#fff;box-shadow:0 0 0 3px rgba(0,200,83,0.15)}
+        .form-textarea{min-height:120px;resize:vertical}
+        footer{padding:32px 0;border-top:1px solid var(--border);background:#f8faf8}
+        .footer-content{display:flex;justify-content:space-between;align-items:center}
+        .footer-text{color:#888;font-size:0.9rem}
+        .footer-links{display:flex;gap:24px}
+        .footer-link{color:#888;text-decoration:none;font-size:0.9rem}
+        .footer-link:hover{color:var(--green)}
+        .success-message{background:var(--green-light);border:1px solid var(--green);border-radius:12px;padding:20px;color:var(--green-dark);text-align:center;font-weight:500}
+        @media(max-width:900px){.hero-content,.about-grid,.contact-grid{grid-template-columns:1fr}.nav-links{display:none}.project-card{grid-template-columns:1fr}.contact-wrapper{padding:32px}}
+        @media(max-width:600px){.hero-cta{flex-direction:column}.btn{width:100%;text-align:center}.about-stats{grid-template-columns:1fr}.footer-content{flex-direction:column;gap:16px;text-align:center}section{padding:64px 0}}
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const {useState}=React;
+        const t={de:{nav:{about:"Über mich",projects:"Projekte",skills:"Skills",contact:"Kontakt"},hero:{badge:"Verfügbar für Projekte",t1:"Ich automatisiere",t2:"dein Business",t3:"mit KI",sub:"Operations Manager & AI Developer aus Stuttgart. Ich baue Automation-Systeme die tatsächlich funktionieren.",cta1:"Projekt starten",cta2:"Projekte ansehen"},about:{badge:"Über mich",title:"Operations trifft AI Development",p1:"Als Operations Manager bei AI-Z Group GmbH in Stuttgart verbinde ich zwei Welten: strukturiertes Prozessdenken und hands-on AI-Entwicklung.",p2:"Ich baue Automation-Systeme, die täglich im Einsatz sind – keine Demos, sondern echte Lösungen.",p3:"Mein Ansatz: Learning by doing, minimale Tools, maximaler Output.",s1:{n:"80%",l:"Zeitersparnis"},s2:{n:"∞",l:"Lernbereitschaft"},s3:{n:"24/7",l:"Automation"},s4:{n:"100%",l:"Hands-on"}},projects:{badge:"Projekte",title:"Was ich gebaut habe",p1:{title:"Prozess-Labor",desc:"End-to-End Automation: Training-Anfragen werden automatisch aus Emails extrahiert, verarbeitet und bis zur Vertragsgenerierung durchgeführt.",impact:"80%",label:"weniger manuell"},p2:{title:"LinkedIn Brain",desc:"YouTube-Transkripte werden automatisch in LinkedIn-Posts umgewandelt. Von der Video-URL zum fertigen Content.",impact:"10x",label:"schneller"}},skills:{badge:"Skills",title:"Womit ich arbeite",c1:{t:"Automation",i:["n8n","Make","Zapier","API Integration"]},c2:{t:"AI / LLM",i:["Claude API","Prompt Engineering","Claude Code","AI Training"]},c3:{t:"Tools",i:["Notion","Supabase","Git","Terminal/CLI"]},c4:{t:"Business",i:["Prozessoptimierung","Vertragsmanagement","Operations","Consulting"]}},contact:{badge:"Kontakt",title:"Lass uns sprechen",sub:"Du hast ein Projekt im Kopf? Ich helfe dir, Prozesse zu automatisieren.",name:"Name",email:"Email",msg:"Nachricht",np:"Dein Name",ep:"deine@email.de",mp:"Erzähl mir von deinem Projekt...",btn:"Nachricht senden",success:"Danke! Ich melde mich bald.",loc:"Stuttgart, Deutschland",avail:"Verfügbar für Remote & Lokal"},footer:{r:"Alle Rechte vorbehalten.",p:"Datenschutz",i:"Impressum"},code:{c:"// AI Automation",l1:"automatisieren",l2:"prozesse",l3:'"Zeit sparen"'}},en:{nav:{about:"About",projects:"Projects",skills:"Skills",contact:"Contact"},hero:{badge:"Available for projects",t1:"I automate",t2:"your business",t3:"with AI",sub:"Operations Manager & AI Developer from Stuttgart. I build automation systems that actually work.",cta1:"Start a project",cta2:"View projects"},about:{badge:"About me",title:"Operations meets AI Development",p1:"As Operations Manager at AI-Z Group GmbH in Stuttgart, I bridge two worlds: structured process thinking and hands-on AI development.",p2:"I build automation systems that run daily – not demos, but real solutions.",p3:"My approach: Learning by doing, minimal tools, maximum output.",s1:{n:"80%",l:"Time saved"},s2:{n:"∞",l:"Curiosity"},s3:{n:"24/7",l:"Automation"},s4:{n:"100%",l:"Hands-on"}},projects:{badge:"Projects",title:"What I've built",p1:{title:"Process Lab",desc:"End-to-end automation: Training requests are automatically extracted from emails, processed, and carried through to contract generation.",impact:"80%",label:"less manual"},p2:{title:"LinkedIn Brain",desc:"YouTube transcripts are automatically converted into LinkedIn posts. From video URL to finished content.",impact:"10x",label:"faster"}},skills:{badge:"Skills",title:"What I work with",c1:{t:"Automation",i:["n8n","Make","Zapier","API Integration"]},c2:{t:"AI / LLM",i:["Claude API","Prompt Engineering","Claude Code","AI Training"]},c3:{t:"Tools",i:["Notion","Supabase","Git","Terminal/CLI"]},c4:{t:"Business",i:["Process Optimization","Contract Management","Operations","Consulting"]}},contact:{badge:"Contact",title:"Let's talk",sub:"Got a project in mind? I help you automate processes.",name:"Name",email:"Email",msg:"Message",np:"Your name",ep:"your@email.com",mp:"Tell me about your project...",btn:"Send message",success:"Thanks! I'll get back to you soon.",loc:"Stuttgart, Germany",avail:"Available for Remote & Local"},footer:{r:"All rights reserved.",p:"Privacy",i:"Imprint"},code:{c:"// AI Automation",l1:"automate",l2:"processes",l3:'"Save time"'}}};
+        function App(){const[lang,setLang]=useState('de');const[form,setForm]=useState({name:'',email:'',msg:''});const[sent,setSent]=useState(false);const l=t[lang];const submit=e=>{e.preventDefault();setSent(true);setTimeout(()=>{setSent(false);setForm({name:'',email:'',msg:''})},3000)};return(<><nav><div className="container nav-content"><a href="#" className="logo">Ibrahim Kamara<span className="logo-dot"></span></a><div className="nav-links"><a href="#about" className="nav-link">{l.nav.about}</a><a href="#projects" className="nav-link">{l.nav.projects}</a><a href="#skills" className="nav-link">{l.nav.skills}</a><a href="#contact" className="nav-link">{l.nav.contact}</a></div><div className="lang-toggle"><button className={`lang-btn ${lang==='de'?'active':''}`} onClick={()=>setLang('de')}>DE</button><button className={`lang-btn ${lang==='en'?'active':''}`} onClick={()=>setLang('en')}>EN</button></div></div></nav><section className="hero"><div className="container hero-content"><div><div className="hero-badge"><span className="hero-badge-dot"></span>{l.hero.badge}</div><h1 className="hero-title">{l.hero.t1}<br/><span className="highlight">{l.hero.t2}</span><br/>{l.hero.t3}</h1><p className="hero-subtitle">{l.hero.sub}</p><div className="hero-cta"><a href="#contact" className="btn btn-primary">{l.hero.cta1} →</a><a href="#projects" className="btn btn-secondary">{l.hero.cta2}</a></div></div><div className="hero-visual"><div className="hero-card"><div className="code-header"><span className="code-dot red"></span><span className="code-dot yellow"></span><span className="code-dot green"></span></div><div className="code-content"><div className="code-line"><span className="code-number">1</span><span className="code-comment">{l.code.c}</span></div><div className="code-line"><span className="code-number">2</span><span><span className="code-keyword">const</span> <span className="code-function">{l.code.l1}</span> = () =&gt; {'{'}</span></div><div className="code-line"><span className="code-number">3</span><span>&nbsp;&nbsp;<span className="code-keyword">return</span> {l.code.l2}.<span className="code-function">map</span>(t =&gt;</span></div><div className="code-line"><span className="code-number">4</span><span>&nbsp;&nbsp;&nbsp;&nbsp;AI.<span className="code-function">optimize</span>(t)</span></div><div className="code-line"><span className="code-number">5</span><span>&nbsp;&nbsp;)</span></div><div className="code-line"><span className="code-number">6</span><span>{'}'}</span></div><div className="code-line"><span className="code-number">7</span><span className="code-comment">// → <span className="code-string">{l.code.l3}</span></span></div></div></div></div></div></section><section id="about" className="about-section"><div className="container"><div className="section-header"><div className="section-badge">{l.about.badge}</div><h2 className="section-title">{l.about.title}</h2></div><div className="about-grid"><div className="about-text"><p>{l.about.p1}</p><p>{l.about.p2}</p><p>{l.about.p3}</p></div><div className="about-stats"><div className="stat-card"><div className="stat-number">{l.about.s1.n}</div><div className="stat-label">{l.about.s1.l}</div></div><div className="stat-card"><div className="stat-number">{l.about.s2.n}</div><div className="stat-label">{l.about.s2.l}</div></div><div className="stat-card"><div className="stat-number">{l.about.s3.n}</div><div className="stat-label">{l.about.s3.l}</div></div><div className="stat-card"><div className="stat-number">{l.about.s4.n}</div><div className="stat-label">{l.about.s4.l}</div></div></div></div></div></section><section id="projects"><div className="container"><div className="section-header"><div className="section-badge">{l.projects.badge}</div><h2 className="section-title">{l.projects.title}</h2></div><div className="projects-grid"><div className="project-card"><div><div className="project-number">01</div><h3 className="project-title">{l.projects.p1.title}</h3><p className="project-description">{l.projects.p1.desc}</p><div className="project-tags"><span className="tag">n8n</span><span className="tag">Claude API</span><span className="tag">Notion</span></div></div><div className="project-impact"><div className="impact-number">{l.projects.p1.impact}</div><div className="impact-label">{l.projects.p1.label}</div></div></div><div className="project-card"><div><div className="project-number">02</div><h3 className="project-title">{l.projects.p2.title}</h3><p className="project-description">{l.projects.p2.desc}</p><div className="project-tags"><span className="tag">YouTube API</span><span className="tag">Claude API</span><span className="tag">n8n</span></div></div><div className="project-impact"><div className="impact-number">{l.projects.p2.impact}</div><div className="impact-label">{l.projects.p2.label}</div></div></div></div></div></section><section id="skills" className="skills-section"><div className="container"><div className="section-header"><div className="section-badge">{l.skills.badge}</div><h2 className="section-title">{l.skills.title}</h2></div><div className="skills-grid"><div className="skill-category"><div className="skill-header"><span className="skill-icon">⚡</span><h3 className="skill-title">{l.skills.c1.t}</h3></div><div className="skill-list">{l.skills.c1.i.map((x,i)=><span key={i} className="skill-item">{x}</span>)}</div></div><div className="skill-category"><div className="skill-header"><span className="skill-icon">🧠</span><h3 className="skill-title">{l.skills.c2.t}</h3></div><div className="skill-list">{l.skills.c2.i.map((x,i)=><span key={i} className="skill-item">{x}</span>)}</div></div><div className="skill-category"><div className="skill-header"><span className="skill-icon">🛠</span><h3 className="skill-title">{l.skills.c3.t}</h3></div><div className="skill-list">{l.skills.c3.i.map((x,i)=><span key={i} className="skill-item">{x}</span>)}</div></div><div className="skill-category"><div className="skill-header"><span className="skill-icon">📊</span><h3 className="skill-title">{l.skills.c4.t}</h3></div><div className="skill-list">{l.skills.c4.i.map((x,i)=><span key={i} className="skill-item">{x}</span>)}</div></div></div></div></section><section id="contact"><div className="container"><div className="section-header"><div className="section-badge">{l.contact.badge}</div><h2 className="section-title">{l.contact.title}</h2></div><div className="contact-wrapper"><div className="contact-grid"><div className="contact-info"><h3>{l.contact.title}</h3><p>{l.contact.sub}</p><div className="contact-details"><div className="contact-detail"><span className="contact-detail-icon">📍</span><span className="contact-detail-text">{l.contact.loc}</span></div><div className="contact-detail"><span className="contact-detail-icon">✓</span><span className="contact-detail-text">{l.contact.avail}</span></div></div></div><form className="contact-form" onSubmit={submit}>{sent?<div className="success-message">{l.contact.success}</div>:<><div className="form-group"><label className="form-label">{l.contact.name}</label><input type="text" className="form-input" placeholder={l.contact.np} value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required/></div><div className="form-group"><label className="form-label">{l.contact.email}</label><input type="email" className="form-input" placeholder={l.contact.ep} value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required/></div><div className="form-group"><label className="form-label">{l.contact.msg}</label><textarea className="form-textarea" placeholder={l.contact.mp} value={form.msg} onChange={e=>setForm({...form,msg:e.target.value})} required/></div><button type="submit" className="btn btn-primary">{l.contact.btn} →</button></>}</form></div></div></div></section><footer><div className="container footer-content"><div className="footer-text">© 2025 Ibrahim Kamara. {l.footer.r}</div><div className="footer-links"><a href="datenschutz.html" className="footer-link">{l.footer.p}</a><a href="impressum.html" className="footer-link">{l.footer.i}</a></div></div></footer></>)}
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
